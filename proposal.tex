@@ -1,0 +1,79 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{pgfgantt}
+\usepackage{subfiles}
+
+\begin{document}
+\subfile{proposal/title}
+
+\section{Antecedentes}
+
+\textsc{ALeRCE} (Automatic Learning for the Rapid Classification of Events) es un broker astronómico que se encarga de centralizar y analizar datos de diversos telescopios ópticos para su posterior utilización en la comunidad astronómica.\par\null\par
+
+Éste procesa datos provenientes principalmente del observatorio Zwicky Transient Facility (\textsc{ZTF}), el cual detecta masivamente y en tiempo real objetos que cambian su posición y/o brillo (transientes), a una tasa de cientos de miles a decenas de millones de objetos por noche. Dichas detecciones son reportadas en forma de alertas que contienen imágenes e información contextual del objeto transiente.\par\null\par
+
+Es importante conocer la naturaleza de estos objetos transientes para realizar el seguimiento de los objetos más interesantes, incluyendo nuevos objetos astronómicos no antes vistos. Su correcta clasificación depende de la información contextual de la misma, particularmente de las galaxias anfitrionas. Es por esto que el broker desarrolló un algoritmo llamado DELIGHT \cite{delight} basado en redes convolucionales, el cual usa las imágenes provenientes de \textsc{PanSTARRS} para analizar la información contextual de dicho transiente y encontrar la galaxia anfitriona, retornando un vector bidimensional que relaciona el transiente con el centro de la galaxia anfitriona predicha.\par\null\par
+
+Las imágenes son muy pesadas para su descarga y procesamiento de forma masiva, producto de su gran campo angular, por ende se crearon imágenes multiresolución que cubrieran escalas pequeñas en alta resolución y escalas grandes en baja resolución. Al hacer esto, se logró reducir la información requerida de $920KB$ a tan solo $32KB$, lo que hizo el procesamiento mucho más rápido ($\approx 60 ms$ por imagen multiresolución) sin afectar considerablemente la precisión del algoritmo.\par\null\par
+
+Por lo tanto, en esta tesis se desea estudiar esta forma de procesar de imágenes para arquitecturas más flexibles (vision transformers) para evaluar el desempeño de otras arquitecturas con respecto a la original. También se busca generalizar esta red y evaluar su viabilidad para tareas que requieren alto rendimiento de procesado en otras áreas. 
+
+\section{Objetivos}
+\subsection{Objetivo General}
+
+\paragraph{Desarrollar modelos de identificación de galaxias con entrada de imágenes multiresolución estudiando el desempeño, tanto en velocidad de procesamiento como en correctitud en la tarea a resolver.}
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+    \item Replicar resultados de DELIGHT \cite{delight} y comparar desempeño de red convolucional con vision transformer usando imágenes multiresolución y resolución simple midiendo desempeño y eficiencia en cómputo tanto en la ejecución de la red, como en la obtención de la imagen.
+    \item Identificar casos problemáticos, e.g. cuando el modelo no puede elegir entre dos galaxias, y explorar soluciones.
+    \item Explorar la extensión multi modal y multi tarea , e.g. incorporar información de varias bandas, o la serie de tiempo asociada al transiente, o las imágenes referencia, ciencia y diferencia con las que se descubrió el transiente; resolver el problema de identificación de la galaxia y clasificación del transiente usando los mismos datos.
+    \item Explorar extensiones a otras aplicaciones, e.g. clasificación de imágenes en google maps usando imágenes multi resolución.
+\end{itemize}
+
+\section{Metodología}
+Para el primer objetivo, se replicará los resultados obtenidos en DELIGHT, y se creará una nueva arquitectura basada en vision transformers, luego se comparará el desempeño usando dos métricas: Rendimiento de procesamiento (imagenes por segundo) y desempeño en la identificación de galaxias. Se concluirá que la nueva arquitectura es mejor, si su rendimiento de procesamiento es mejor que DELIGHT, y si el desempeño en la tarea no empeora. \par\null\par
+
+Si la nueva arquitectura es mejor que DELIGHT, los siguientes objetivos se trabajaran a partir de ella, de lo contrario, se utilizará la arquitectura original.
+
+Para el segundo objetivo, se identificarán los casos problemáticos más relevantes, y se explorarán soluciones, como implementar mapas de segmentación o mapas de calor. \par\null\par
+
+Para el tercer objetivo, se enfocará el problema a la incorporación de información de series de tiempo asociada al transiente, se cambiará tanto la entrada de la red para la incorporación del dato, como las capas finales para permitir resolver tanto la tarea de identificación de galaxias como de clasificación de la transiente.  \par\null\par
+
+Finalmente, para el último objetivo, se utilizará un conjunto de datos público de imágenes satelitales (como SpaceNet en Kaggle) para entrenar la arquitectura para la tarea de identificación de uso de suelo, a fin de explorar la viabilidad en otras aplicaciones.
+\section{Resultados Esperados}
+
+Se espera entregar
+\begin{itemize}
+    \item Tabla con las métricas definidas en la metodología, comparando el algoritmo DELIGHT con el nuevo algoritmo basado en visual transformers
+    \item Tabla comparativa entre DELIGHT y el nuevo algoritmo en lo que a disminución de los casos problemáticos respecta.
+    \item Tabla comparativa de desempeño entre DELIGHT y el nuevo algoritmo, tanto en la tarea original de identificación de la galaxia host, como también en la tarea de clasificación del transiente.
+    \item Tabla de desempeño del nuevo algoritmo con respecto a la extensión basada en la tarea de identificación de usos de suelo.
+\end{itemize}
+
+\section{Plan de Trabajo}
+\begin{ganttchart}{1}{15}
+  \gantttitle{Semanas Calendario Académico}{15} \ganttnewline
+  \gantttitlelist{1,...,15}{1} \ganttnewline
+  \ganttbar{DELIGHT}{1}{1} \ganttnewline
+  \ganttbar{Nuevo Modelo}{2}{5} \ganttnewline
+  \ganttbar{Casos Problemáticos}{6}{7} \ganttnewline
+  \ganttbar{Multimodalidad}{8}{10} \ganttnewline
+  \ganttbar{Extensión}{11}{13} \ganttnewline
+  \ganttbar{Escritura Tesis}{14}{15}
+\end{ganttchart}
+
+\bibliographystyle{apalike} 
+\bibliography{cites}
+
+\mbox{}
+\vfill
+\begin{center}
+\begin{tabular}{ c c c }
+ \line(1,0){100} & \line(1,0){120} & \line(1,0){130} \\ 
+ Firma Estudiante & Firma profesor(a) guía & Firma profesor(a) coguía     
+\end{tabular}
+\end{center}
+
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[../tesis.tex]{subfiles}
+\graphicspath{{\subfix{../images/}}}
+\begin{document}
+
+\section{Resumen}
+El presente trabajo exploró diferentes enfoques y modelos para la identificación de galaxias anfitrionas de eventos transitorios utilizando imágenes multiresolución. Se realizaron cuatro experimentos principales: la reproducibilidad de los resultados del modelo DELIGHT, la exploración de arquitecturas preentrenadas, la incorporación de multimodalidad y la adaptación de dominio. Los resultados obtenidos muestran el desempeño de la tarea de predicción utilizando las métricas del trabajo de \cite{delight} en el cual este estudio se basa. A continuación, el presente capítulo detalla las limitaciones de cada modelo y metodología aplicada, destacando las áreas de mejora y las posibles aplicaciones futuras en el campo de la astronomía de eventos transitorios.
+
+\section{Conclusiones}
+
+\subsection{Reproducibilidad de Resultados}
+En el primer experimento, se centró en la reproducibilidad de los resultados obtenidos por DELIGHT, un modelo de referencia en la identificación de galaxias anfitrionas. Utilizando la herramienta PyTorch, el trabajo implementó el algoritmo en un nuevo modelo denominado DelightPt, logrando reproducir con éxito los resultados originales. Los tiempos de cómputo mostraron una significativa mejora en la eficiencia cuando se utilizó GPU, con una reducción notable en el tiempo de inferencia por imagen. Sin embargo, en el contexto de \textit{ALeRCE}, la red en el entorno de producción será utilizado en CPU, por lo que el modelo de referencia sigue siendo más óptimo.\par\null\par
+
+Las métricas de desempeño, a saber, el RMSE, la desviación media, mediana y moda, mostraron resultados consistentes con los del modelo original, validando la robustez de la metodología aplicada.
+
+\subsection{Arquitecturas Preentrenadas}
+En el segundo experimento, se exploró el uso de arquitecturas preentrenadas en ImageNet, específicamente ResNet50, para la tarea de identificación de galaxias anfitrionas. Tres variantes del modelo fueron evaluadas: DR50, DR50FT+ImageNet y DR50FE+ImageNet. A pesar de que los modelos preentrenados no superaron al modelo DELIGHT original en términos de precisión, los resultados mostraron que el fine-tuning, a partir del conocimiento de ImageNet \cite{imagenet}, es una estrategia viable que permite generalizar el dataset astronómico y resolver la tarea en cuestión.\par\null\par
+
+Esto sugiere el uso de la estrategia de fine-tuning para modelos de entrada flexible, como Vision Transformer \cite{ViT}, el cual puede aportar beneficios significativos como incluir distintas fuentes de datos para clasificar de forma directa al evento transitorio.
+
+\subsection{Multimodalidad}
+El tercer experimento se centró en la incorporación de multimodalidad, utilizando información adicional de las bandas $grizy$ del telescopio PanSTARRS \cite{panstarrs}. El modelo resultante, denominado \textit{DelightPtMultiband}, mostró mejoras notables en métricas como la desviación media, mediana y moda. Estos resultados indican que la inclusión de múltiples fuentes de datos puede enriquecer la capacidad predictiva del modelo.\par\null\par
+
+La multimodalidad se presenta como una estrategia que ayuda a reducir los errores de predicción dado que al combinar información de diferentes bandas, el modelo puede captar características que no serían evidentes utilizando una sola fuente de datos. Sin embargo, el no haber mejorías respecto a la métrica de $RMSE$ sugiere que el modelo puede ser susceptible a datos atípicos.
+
+\subsection{Adaptación de Dominio}
+Finalmente, el cuarto experimento evaluó la capacidad de adaptación de dominio del modelo DelightPt, entrenado en la fuente de datos descrita en la sección \ref{methods:dataset1} y probado en la fuente de datos descrita en \ref{methods:dataset2}. Los resultados indicaron que, aunque no se mejoraron las métricas de los modelos base y \textit{DelightPr}, el modelo mostró métricas consistentes en las bandas $i$ e $z$. Estos resultados son importantes para el equipo, dado el próximo lanzamiento del telescopio Vera C. Rubin, que proporcionará una gran cantidad de nuevos datos a analizar.\par\null\par
+
+La adaptación de dominio es un área muy importante de investigación, ya que permite que los modelos desarrollados y entrenados en un conjunto de datos específico puedan generalizarse y aplicarse a otros conjuntos de datos sin necesidad de un reentrenamiento. En este trabajo, la capacidad del modelo para mantener un rendimiento aceptable al cambiar de fuente de datos sugiere la viabilidad de uso para las nuevas imágenes de los telescopios a construir.
+
+\subsection{Reflexiones Finales}
+El trabajo realizado da cuenta del poder que tiene las herramientas que ofrece el Machine Learning para el análisis de datos astronómicos, sobre todo en éste último tiempo donde los datos disponibles crecen de manera exponencial. Los resultados acercan la posibilidad de encontrar herramientas de clasificación directa que permitan a los futuros profesionales de la astronomía enfocar su tiempo y recursos computacionales al análisis contextual de eventos ya identificados.\par\null\par
+
+\subsection{Trabajo Futuro}
+A continuación, se listan posibles extensiones a este trabajo dado los resultados obtenidos:
+
+\begin{itemize}
+    \item Explorar fine-tuning usando ImageNet en modelos flexibles como Vision Transformer \cite{ViT}.
+    \item Explorar optimizaciones en CPU para la implementación en PyTorch del modelo \textit{DelightPt}.    
+\end{itemize}
+
+
+\end{document}

@@ -1,0 +1,61 @@
+\documentclass[12pt, a4paper]{report}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{blindtext}
+\usepackage{subfiles}
+\usepackage{imakeidx}
+\usepackage{multirow}
+\makeindex[columns=2, intoc]
+\renewcommand*\contentsname{Tabla de contenidos}
+\renewcommand\bibname{Referencias}
+\usepackage{titlesec}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{setspace}
+\usepackage{lipsum}
+\usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
+\usepackage{multicol}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{color}   %May be necessary if you want to color links
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true, %set true if you want colored links
+    linktoc=all,     %set to all if you want both sections and subsections linked
+    linkcolor=blue,  %choose some color if you want links to stand out
+}
+
+
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{Capítulo\ \thechapter}{20pt}{\Huge}
+
+
+\begin{document}
+\subfile{sections/title}
+
+\chapter*{Agradecimientos}
+\subfile{sections/greetings}
+\newpage
+
+\tableofcontents
+\newpage
+
+\chapter{Introducción}
+\subfile{sections/introduction}
+\newpage
+
+\chapter{Metodología}
+\subfile{sections/methods}
+\newpage
+
+\chapter{Resultados}
+\subfile{sections/results}
+\newpage
+
+\chapter{Análisis y Conclusiones}
+\subfile{sections/analysis}
+\newpage
+
+\bibliographystyle{apalike} 
+\bibliography{cites}
+\end{document}
